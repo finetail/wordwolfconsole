@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+
+<body>
+<form id='create_room' name='create_room' action="create_room" method="POST">
+  <input type="text" name="room_name" id="room_name" placeholder="部屋の名前"/>
+  <input type="button" id="room_submit" value="決定"/>
+</form>
+</body>
+<script>
+  $("#room_submit").on("click",()=>{
+    $.ajax({
+      url:'create_room',
+      type:'GET',
+      dataType:'json',
+      data:$('#create_room').serializeArray(),
+      timeout:10000
+    }).done((data)=>{
+      const id = data.id
+      const master_id = data.master_id
+      console.log(`id=${id},master_id=${master_id}`)
+      window.location.href = `/?id=${id}&master_id=${master_id}`
+    }).fail(()=>{
+      alert("エラーだわ")
+    })
+  })
+</script>
+</html>
