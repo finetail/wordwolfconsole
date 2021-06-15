@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+
+<body>
+  <div id="room_name">部屋名：<%= room_name %>
+  </div>
+  <% if(master) { %>
+    <div>あなたは部屋主です</div>
+    <div>部屋に全員が入室したあと、お題を入力して実行してください。</div>
+    <div>現在の状態：<span id="status"></span></div>
+    <div><input type="button" value="状態更新" name="get_status"></div>
+    <div>
+      <label>村人用のお題<input type="text" id="person" name="person" placeholder="村人用のお題"></label>
+      <label>人狼用のお題<input type="text" id="wolf" name="wolf" placeholder="人狼用のお題"></label>
+    </div>
+    <div><input type="button" value="実行" id="send" name="send"></div>
+    <div id="link"></div>
+  <% } else { %>
+    <div>名前を入力してください。</div>
+    <div><label>名前<input type="text" id="user_name" name="user_name" placeholder="名前書いて"></label></div>
+  <% } %>
+</body>
+<script>
+  $("#send").on("click",()=>{
+    const person = $("person").val()
+    const wolf = $("wolf").val()
+    
+    $.ajax({
+      url:'send_question',
+      type:'GET',
+      dataType:'json',
+      data:{person:person,wolf:wolf},
+      timeout:10000
+    }).done((data)=>{
+      $("#status").text(data.status)
+    }).fail(()=>{
+      alert("エラーだわ")
+    })
+    $.ajax({
+      url:'get_status',
+      type:'GET',
+      dataType:'json',
+      data:{person:person,wolf:wolf},
+      timeout:10000
+    }).done((data)=>{
+      $("#status").text(data.status)
+    }).fail(()=>{
+      alert("エラーだわ")
+    })
+  })
+</script>
+
+</html>
