@@ -23,7 +23,7 @@
     <div id="link"></div>
   <% } else { %>
     <div>名前を入力してください。</div>
-    <div><label>名前<input type="text" id="user_name" name="user_name" placeholder="名前書いて"></label></div>
+    <div><label>名前<input type="text" id="user_name" name="user_name" placeholder="名前書いて"></label><span id="user_name_display"></span></div>
     <div><input type="button" value="参加" id="join" name="join"></div>
     <div><input type="button" value="ワード取得" id="get_my_word" name="get_my_word"></div>
     <div id="message"></div>
@@ -88,6 +88,7 @@
       console.log(`person_id:${person_id}`)
       $("#user_name").hide()
       $("#join").hide()
+      $("#user_name_display").text(":" + $("#user_name").val())
     }).fail(()=>{
       alert("エラーだわ")
     })
