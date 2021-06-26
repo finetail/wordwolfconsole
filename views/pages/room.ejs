@@ -13,6 +13,7 @@
     <div>あなたは部屋主です</div>
     <div>部屋に全員が入室したあと、お題を入力して実行してください。</div>
     <div>現在の状態：<span id="status"></span></div>
+    <div>人狼の数：<select id='number_of_wolves'><option value='1'>1</option><option value='2'>2</option><option value='3'>3</option></select></div>
     <div id="message"></div>
     <div><input type="button" value="状態更新" id="get_status"></div>
     <div>
@@ -20,7 +21,7 @@
       <label>人狼用のお題<input type="text" id="wolf" name="wolf" placeholder="人狼用のお題"></label>
     </div>
     <div><input type="button" value="実行" id="send" name="send"></div>
-    <div id="link"></div>
+    <div>公開用URL：<span id='link'></span></div>
   <% } else { %>
     <div>名前を入力してください。</div>
     <div><label>名前<input type="text" id="user_name" name="user_name" placeholder="名前書いて"></label><span id="user_name_display"></span></div>
@@ -30,69 +31,7 @@
     <div id="link"></div>
   <% } %>
 </body>
-<script>
-  const room_id = $("#room_id").text()
-  let person_id = ""
-  $("#link").text(window.location.href.replace(/&master_id.*/,''))
-  $("#send").on("click",()=>{
-    const person = $("#person").val()
-    const wolf = $("#wolf").val()
-
-    $.ajax({
-      url:'send_question',
-      type:'GET',
-      dataType:'json',
-      data:{id:room_id,person:person,wolf:wolf},
-      timeout:10000
-    }).done((data)=>{
-      $("#message").text(data.message)
-    }).fail(()=>{
-      alert("エラーだわ")
-    })
-  })
-  $("#get_status").on("click", ()=>{
-    $.ajax({
-      url:'get_status',
-      type:'GET',
-      dataType:'json',
-      data:{id:room_id},
-      timeout:10000
-    }).done((data)=>{
-      $("#status").text(data.message)
-    }).fail(()=>{
-      alert("エラーだわ")
-    })
-  })
-  $("#get_my_word").on("click",()=>{
-    $.ajax({
-      url:'get_my_word',
-      type:'GET',
-      dataType:'json',
-      data:{id:room_id,person_id:person_id},
-      timeout:10000
-    }).done((data)=>{
-      $("#message").text(data.message)
-    }).fail(()=>{
-      alert("エラーだわ")
-    })
-  })
-  $("#join").on("click",()=>{
-    $.ajax({
-      url:'join',
-      type:'GET',
-      dataType:'json',
-      data:{id:room_id,name:$("#user_name").val()},
-      timeout:10000
-    }).done((data)=>{
-      person_id = data.person_id
-      console.log(`person_id:${person_id}`)
-      $("#user_name").hide()
-      $("#join").hide()
-      $("#user_name_display").text(":" + $("#user_name").val())
-    }).fail(()=>{
-      alert("エラーだわ")
-    })
-  })
+<script src='/js/room.js'>
 </script>
 
 </html>
