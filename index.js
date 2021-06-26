@@ -49,10 +49,11 @@ app.use(express.static(path.join(__dirname, 'public')))
   .get('/get_my_word', (req, res) => {
     const person_id = req.query.person_id
     const room = getRoomByRequest(req)
-    if (room.wolves.map(wolf=>wolf.id).includes(person_id)) {
-      res.json({ message: `あなたのお題は${room.wolf_word}です。` })
+    const vote_select = room.persons.map(person => `<option value='${person.id}'>${person.name}</option>`)
+    if (room.wolves.map(wolf => wolf.id).includes(person_id)) {
+      res.json({ message: `あなたのお題は${room.wolf_word}です。`, vote_select: vote_select })
     } else {
-      res.json({ message: `あなたのお題は${room.person_word}です。` })
+      res.json({ message: `あなたのお題は${room.person_word}です。`, vote_select: vote_select })
     }
   })
   .get('/send_question', (req, res) => {
@@ -65,13 +66,13 @@ app.use(express.static(path.join(__dirname, 'public')))
     room.resetWolves()
     for (let i = 0; i < room.number_of_wolves; i++) {
       wolf = persons[Math.floor(Math.random() * persons.length)]
-      while(room.wolves.includes(wolf)){
+      while (room.wolves.includes(wolf)) {
         wolf = persons[Math.floor(Math.random() * persons.length)]
       }
       room.addWolf(wolf)
     }
-    res.json({ message: `人狼は${room.wolves.map(wolf=>`${wolf.name}`).join('、')}さんです。` })
-    console.log(`人狼は${room.wolves.map(wolf=>`${wolf.name}`).join('、')}さんです。` )
+    res.json({ message: `人狼は${room.wolves.map(wolf => `${wolf.name}`).join('、')}さんです。` })
+    console.log(`人狼は${room.wolves.map(wolf => `${wolf.name}`).join('、')}さんです。`)
   })
   .get('/num_change', (req, res) => {
     const room = getRoomByRequest(req)
