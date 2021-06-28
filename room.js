@@ -3,6 +3,7 @@ module.exports = class Room {
   wolf_word
   persons
   wolves
+  votes
   constructor(id, name, master_id) {
     this.id = id
     this.name = name
@@ -29,6 +30,16 @@ module.exports = class Room {
   }
   resetWolves() {
     this.wolves = []
+  }
+  vote(vote) {
+    if (this.votes.hasOwnProperty(vote)) {
+      this.votes[vote] += 1
+    } else {
+      this.votes[vote] = 1
+    }
+  }
+  resetVotes() {
+    this.votes = {}
   }
 
 }

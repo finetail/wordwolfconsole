@@ -64,6 +64,7 @@ app.use(express.static(path.join(__dirname, 'public')))
     room.setWolfWord(wolf_word)
     persons = room.persons
     room.resetWolves()
+    room.resetVotes()
     for (let i = 0; i < room.number_of_wolves; i++) {
       wolf = persons[Math.floor(Math.random() * persons.length)]
       while (room.wolves.includes(wolf)) {
@@ -81,5 +82,21 @@ app.use(express.static(path.join(__dirname, 'public')))
     const message = "参加者は、" + room.persons.map(person => `${person.name}さん`).join('、') + `、人狼は${number_of_wolves}人です。`
     res.json({ message: message })
     console.log(message)
+  })
+  .get('/vote', (req, res) => {
+    const room = getRoomByRequest(req)
+    room.vote(req.query.target)
+    res.json({})
+  })
+  .get('/get_vote_result', (req, res) => {
+    const room = getRoomByRequest(req)
+    voted = Object.values(room.votes).reduce((sum, e) => sum + e, 0)
+    if (voted >= room.persons.length) {
+      vote_message = Object.keys(room.votes).map(vote => `${room.persons.find(person => person.id == vote).name}さんに${room.votes[vote]}票`)
+      message = `投票結果は、${vote_message.join('、')}でした。`
+      res.json({ message: message, reset: true })
+    } else {
+      res.json({ message: `プレイヤー${room.persons.length}人中${voted}人投票済みです。`, reset: false })
+    }
   })
   .listen(PORT, () => console.log(`Listening on ${PORT}`))

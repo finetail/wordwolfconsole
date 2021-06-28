@@ -16,6 +16,7 @@ $("#send").on("click", () => {
     timeout: TIMEOUT
   }).done((data) => {
     $("#message").text(data.message)
+    $('#vote_area').show()
   }).fail(() => {
     alert(AJAX_FAILED_MESSAGE)
   })
@@ -43,6 +44,7 @@ $("#get_my_word").on("click", () => {
   }).done((data) => {
     $("#message").text(data.message)
     $('#vote_area').show()
+    $("#vote_button").show()
     $('#vote_select').children().remove()
     $('#vote_select').append(data.vote_select)
   }).fail(() => {
@@ -87,6 +89,7 @@ $('#vote_button').on('click', () => {
     data: { id: room_id, target: $('#vote_select').val() },
     timeout: TIMEOUT
   }).done(() => {
+    $("#vote_button").hide()
     $('#status').text('投票完了までお待ち下さい')
   }).fail(() => {
     alert(AJAX_FAILED_MESSAGE)
@@ -94,13 +97,16 @@ $('#vote_button').on('click', () => {
 })
 $('#get_vote_result_button').on('click', () => {
   $.ajax({
-    url: 'get_vote_result_button',
+    url: 'get_vote_result',
     type: 'GET',
     dataTypes: 'json',
     data: { id: room_id },
     timeout: TIMEOUT
   }).done((data) => {
-
+    $("#message").text(data.message)
+    if (data.reset) {
+      $('#vote_area').hide()
+    }
   }).fail(() => {
     alert(AJAX_FAILED_MESSAGE)
   })

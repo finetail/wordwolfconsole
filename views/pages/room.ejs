@@ -27,6 +27,9 @@
       <label>人狼用のお題<input type="text" id="wolf" name="wolf" placeholder="人狼用のお題"></label>
     </div>
     <div><input type="button" value="実行" id="send" name="send"></div>
+    <div id='vote_area'>
+      <input type="button" value="投票結果確認" id="get_vote_result_button" name="get_vote_result_button">
+    </div>
     <div>公開用URL：<span id='link'></span></div>
     <% } else { %>
       <div>名前を入力してください。</div>
@@ -41,6 +44,7 @@
         <select id='vote_select'>
         </select>
         <input type='button' value='投票' id='vote_button' />
+        <input type="button" value="投票結果確認" id="get_vote_result_button" name="get_vote_result_button">
       </div>
       <% } %>
 </body>
