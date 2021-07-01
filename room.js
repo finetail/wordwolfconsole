@@ -40,6 +40,7 @@ module.exports = class Room {
   }
   resetVotes() {
     this.votes = {}
+    this.persons.forEach(person => this.votes[person.id] = 0)
   }
 
 }

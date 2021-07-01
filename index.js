@@ -92,7 +92,7 @@ app.use(express.static(path.join(__dirname, 'public')))
     const room = getRoomByRequest(req)
     voted = Object.values(room.votes).reduce((sum, e) => sum + e, 0)
     if (voted >= room.persons.length) {
-      vote_message = Object.keys(room.votes).map(vote => `${room.persons.find(person => person.id == vote).name}さんに${room.votes[vote]}票`)
+      vote_message = Object.keys(room.votes).filter(vote => room.votes[vote] > 0).map(vote => `${room.persons.find(person => person.id == vote).name}さんに${room.votes[vote]}票`)
       message = `投票結果は、${vote_message.join('、')}でした。`
       res.json({ message: message, reset: true })
     } else {

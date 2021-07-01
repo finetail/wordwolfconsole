@@ -14,37 +14,56 @@
   <% if(master) { %>
     <div>あなたは部屋主です</div>
     <div>部屋に全員が入室したあと、お題を入力して実行してください。</div>
-    <div>現在の状態：<span id="status"></span></div>
+    <p>現在の状態：<span id="status"></span></p>
     <div>人狼の数：<select id='number_of_wolves'>
         <option value='1'>1</option>
         <option value='2'>2</option>
         <option value='3'>3</option>
       </select></div>
-    <div id="message"></div>
+    <p id="message"></p>
     <div><input type="button" value="状態更新" id="get_status"></div>
-    <div>
+    <p>
       <label>村人用のお題<input type="text" id="person" name="person" placeholder="村人用のお題"></label>
       <label>人狼用のお題<input type="text" id="wolf" name="wolf" placeholder="人狼用のお題"></label>
-    </div>
-    <div><input type="button" value="実行" id="send" name="send"></div>
-    <div id='vote_area'>
+    </p>
+    <div><input type="button" value="ゲーム開始" id="send" name="send"></div>
+    <p id='vote_area'>
       <input type="button" value="投票結果確認" id="get_vote_result_button" name="get_vote_result_button">
+    </p>
+    <div>公開用URL：<input type='text' id='link' size="50"><input type='button' id='copy_button' value='コピー'></div>
+    <div style='border: 1px;'>
+      <p>使い方</p>
+      <p>プレイヤーへ公開用URLを共有し、入室させてください。</p>
+      <p>プレイヤーの入室後、村人用のお題と人狼用のお題を入力し、人狼の数を決定してください。</p>
+      <p>状態更新ボタンを押すと、現在ルームに入室している人の名前が表示されます。</p>
+      <p>ゲーム開始ボタンを押すと、人狼が抽選され、各プレイヤーにお題が配布されます。各プレイヤーにお題取得ボタンを押してもらってください。</p>
+      <p>各プレイヤー画面に投票された結果が、投票結果確認ボタンで確認できます。</p>
+      <p>ゲーム開始ボタンを押すたび、ゲームがリセットされます。新しいゲームを始めたい場合、お題を再入力したうえでゲーム開始ボタンを押してください。</p>
     </div>
-    <div>公開用URL：<span id='link'></span></div>
     <% } else { %>
       <div>名前を入力してください。</div>
       <div><label>名前<input type="text" id="user_name" name="user_name" placeholder="名前書いて"></label><span
           id="user_name_display"></span></div>
       <div><input type="button" value="参加" id="join" name="join"></div>
-      <div><input type="button" value="ワード取得" id="get_my_word" name="get_my_word"></div>
-      <div id="message"></div>
-      <div id="link"></div>
+      <div id="get_my_word_area" style="display:none;"><input type="button" value="お題取得" id="get_my_word"
+          name="get_my_word"></div>
+      <p id="message"></p>
       <div id='vote_area'>
         人狼だと思う人を選んでください。
         <select id='vote_select'>
         </select>
         <input type='button' value='投票' id='vote_button' />
         <input type="button" value="投票結果確認" id="get_vote_result_button" name="get_vote_result_button">
+      </div>
+      <div>公開用URL：<input type='text' id='link' size="50"><input type='button' id='copy_button' value='コピー'></div>
+      <div style='border: 1px;'>
+        <p>使い方</p>
+        <p>名前を入力し、参加ボタンを押すと参加できます。</p>
+        <p>部屋主さんがゲーム開始ボタン押下後、お題取得ボタンを押してください。</p>
+        <p>全員がお題取得後、話し合いを始めてください。</p>
+        <p>話し合い終了後、怪しい人に投票してください。</p>
+        <p>投票結果確認ボタンで結果を確認できます。</p>
+        <p>部屋主さんが再度ゲーム開始ボタンを押すと次のゲームが開始されます。</p>
       </div>
       <% } %>
 </body>

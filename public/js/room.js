@@ -3,7 +3,11 @@ const room_id = $("#room_id").text().replaceAll(/\s/g, '')
 let person_id = ""
 const TIMEOUT = 100000
 const AJAX_FAILED_MESSAGE = "エラーだわ"
-$("#link").text(window.location.href.replace(/&master_id.*/, ''))
+$("#link").val(window.location.href.replace(/&master_id.*/, ''))
+$('#copy_button').on('click', () => {
+  $('#link').select();
+  document.execCommand("copy");
+})
 $("#send").on("click", () => {
   const person = $("#person").val()
   const wolf = $("#wolf").val()
@@ -61,6 +65,7 @@ $("#join").on("click", () => {
   }).done((data) => {
     person_id = data.person_id
     console.log(`person_id:${person_id}`)
+    $('#get_my_word_area').show()
     $("#user_name").hide()
     $("#join").hide()
     $("#user_name_display").text(":" + $("#user_name").val())
