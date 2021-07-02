@@ -93,7 +93,7 @@ app.use(express.static(path.join(__dirname, 'public')))
     voted = Object.values(room.votes).reduce((sum, e) => sum + e, 0)
     if (voted >= room.persons.length) {
       vote_message = Object.keys(room.votes).filter(vote => room.votes[vote] > 0).map(vote => `${room.persons.find(person => person.id == vote).name}さんに${room.votes[vote]}票`)
-      message = `投票結果は、${vote_message.join('、')}でした。`
+      message = `投票結果は、${vote_message.join('、')}でした。人狼は${room.wolves.map(wolf => `${wolf.name}`).join('、')}さんでした。`
       res.json({ message: message, reset: true })
     } else {
       res.json({ message: `プレイヤー${room.persons.length}人中${voted}人投票済みです。`, reset: false })
